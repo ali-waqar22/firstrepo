@@ -122,13 +122,6 @@
       <button class="tab-btn active" id="signupTab">Signup</button>
     </div>
     <!-- Signup Form -->
-    <form id="signupForm">
-      <input class="input-field" type="text" placeholder="Name" required>
-      <input class="input-field" type="email" placeholder="Email Address" required>
-      <input class="input-field" type="password" placeholder="Password" required>
-      <input class="input-field" type="password" placeholder="Confirm password" required>
-      <button class="submit-btn" type="submit">Signup</button>
-    </form>
     <!-- Login Form -->
     <form id="loginForm" style="display: none;">
       <input class="input-field" type="email" placeholder="Email Address" required>
@@ -142,7 +135,7 @@
   <script>
     const signupTab = document.getElementById('signupTab');
     const loginTab = document.getElementById('loginTab');
-    const signupForm = document.getElementById('signupForm');
+    //const signupForm = document.getElementById('signupForm');
     const loginForm = document.getElementById('loginForm');
     const formTitle = document.getElementById('form-title');
     const bottomText = document.getElementById('bottomText');
@@ -150,7 +143,7 @@
   
     const API_URL = 'https://8wk1pxinge.execute-api.us-east-1.amazonaws.com/dev'; // <-- Replace with your API Gateway URL
   
-    function showSignup() {
+    //function showSignup() {
       signupTab.classList.add('active');
       loginTab.classList.remove('active');
       signupForm.style.display = 'flex';
