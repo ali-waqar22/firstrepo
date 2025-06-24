@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Signup/Login Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #a8b6ff 0%, #fbc2eb 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+      padding: 2rem 2rem 1.5rem 2rem;
+      width: 340px;
+      max-width: 90vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .card h2 {
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      color: #222;
+      letter-spacing: 1px;
+    }
+    .tabs {
+      display: flex;
+      width: 100%;
+      margin-bottom: 1.5rem;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #e7eaf6;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 0.7rem 0;
+      border: none;
+      background: none;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #222;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .tab-btn.active {
+      background: linear-gradient(90deg, #0052d4 0%, #4364f7 100%);
+      color: #fff;
+    }
+    form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      animation: fadeIn 0.5s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .input-field {
+      width: 90%;
+      padding: 0.8rem 1rem;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      background: #f7f7f7;
+      font-size: 1rem;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .input-field:focus {
+      border: 1.5px solid #4364f7;
+      background: #fff;
+    }
+    .submit-btn {
+      width: 100%;
+      padding: 0.9rem 0;
+      background: linear-gradient(90deg, #0052d4 0%, #4364f7 100%);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: background 0.2s;
+    }
+    .submit-btn:hover {
+      background: linear-gradient(90deg, #4364f7 0%, #0052d4 100%);
+    }
+    .bottom-text {
+      text-align: center;
+      font-size: 0.97rem;
+      color: #444;
+      margin-top: 0.5rem;
+    }
+    .bottom-text a {
+      color: #0052d4;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 2px;
+      transition: color 0.2s;
+    }
+    .bottom-text a:hover {
+      color: #4364f7;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2 id="form-title">Signup Form</h2>
+    <div class="tabs">
+      <button class="tab-btn" id="loginTab">Login</button>
+      <button class="tab-btn active" id="signupTab">Signup</button>
+    </div>
+    <!-- Signup Form -->
+    <form id="signupForm">
+      <input class="input-field" type="text" placeholder="Name" required>
+      <input class="input-field" type="email" placeholder="Email Address" required>
+      <input class="input-field" type="password" placeholder="Password" required>
+      <input class="input-field" type="password" placeholder="Confirm password" required>
+      <button class="submit-btn" type="submit">Signup</button>
+    </form>
+    <!-- Login Form -->
+    <form id="loginForm" style="display: none;">
+      <input class="input-field" type="email" placeholder="Email Address" required>
+      <input class="input-field" type="password" placeholder="Password" required>
+      <button class="submit-btn" type="submit">Login</button>
+    </form>
+    <div class="bottom-text" id="bottomText">
+      Already have an account? <a href="#" id="loginLink">Login</a>
+    </div>
+  </div>
+  <script>
+    const signupTab = document.getElementById('signupTab');
+    const loginTab = document.getElementById('loginTab');
+    const signupForm = document.getElementById('signupForm');
+    const loginForm = document.getElementById('loginForm');
+    const formTitle = document.getElementById('form-title');
+    const bottomText = document.getElementById('bottomText');
+    const loginLink = document.getElementById('loginLink');
+  
+    const API_URL = 'https://8wk1pxinge.execute-api.us-east-1.amazonaws.com/dev'; // <-- Replace with your API Gateway URL
+  
+    function showSignup() {
+      signupTab.classList.add('active');
+      loginTab.classList.remove('active');
+      signupForm.style.display = 'flex';
+      loginForm.style.display = 'none';
+      formTitle.textContent = 'Signup Form';
+      bottomText.innerHTML = 'Already have an account? <a href="#" id="loginLink">Login</a>';
+      document.getElementById('loginLink').onclick = (e) => { e.preventDefault(); showLogin(); };
+    }
+  
+    function showLogin() {
+      loginTab.classList.add('active');
+      signupTab.classList.remove('active');
+      signupForm.style.display = 'none';
+      loginForm.style.display = 'flex';
+      formTitle.textContent = 'Login Form';
+      bottomText.innerHTML = "Don't have an account? <a href=\"#\" id=\"signupLink\">Signup</a>";
+      document.getElementById('signupLink').onclick = (e) => { e.preventDefault(); showSignup(); };
+    }
+  
+    signupTab.onclick = showSignup;
+    loginTab.onclick = showLogin;
+    loginLink.onclick = (e) => { e.preventDefault(); showLogin(); };
+  
+    // Signup form submission
+    signupForm.onsubmit = async function(e) {
+      e.preventDefault();
+  
+      // Collect form data
+      const name = signupForm.querySelector('input[type="text"]').value.trim();
+      const email = signupForm.querySelector('input[type="email"]').value.trim();
+      const password = signupForm.querySelector('input[type="password"]').value;
+      const confirmPassword = signupForm.querySelectorAll('input[type="password"]')[1].value;
+  
+      if (password !== confirmPassword) {
+        alert('Passwords do not match!');
+        return;
+      }
+  
+      // Prepare payload
+      const payload = {
+        action: 'signup',
+        email,
+        username: name,
+        password
+      };
+  
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+  
+        const data = await response.json();
+  
+        if (response.ok) {
+          alert(data.message || 'Signup successful!');
+          showLogin(); // Switch to login form after signup
+        } else {
+          alert(data.message || 'Signup failed!');
+        }
+      } catch (error) {
+        alert('Error connecting to server: ' + error.message);
+      }
+    };
+  
+    // Login form submission
+    loginForm.onsubmit = async function(e) {
+      e.preventDefault();
+  
+      const email = loginForm.querySelector('input[type="email"]').value.trim();
+      const password = loginForm.querySelector('input[type="password"]').value;
+  
+      const payload = {
+        action: 'login',
+        email,
+        password
+      };
+  
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+  
+        const data = await response.json();
+  
+        if (response.ok) {
+          alert(data.message || 'Login successful!');
+          // TODO: Redirect to dashboard or home page
+        } else {
+          alert(data.message || 'Login failed!');
+        }
+      } catch (error) {
+        alert('Error connecting to server: ' + error.message);
+      }
+    };
+  </script>
+  
+</body>
+</html>
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Sign Up Page</title>
+</head>
+<body>
+    <div class="container">
+        <div class ="header">
+            <h1>Welcome to Our Service</h1>
+            <p>Please sign up to continue.</p>
+        </div>
+        <div class="signup-form">
+            <p>Fill in the details below to create an account.</p>
+            <form action="/signup" method="POST">
+                <label for="first-name">First Name:</label>
+                <input type="text" id="first-name" name="first-name" required><br><br>
+
+                <label for="last-name">Last Name:</label>
+                <input type="text" id="last-name" name="last-name" required><br><br>
+
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" required><br><br>
+
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required><br><br>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required><br><br>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required><br><br>
+
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+        <div class="footer">
+            <p>&copy; 2025 Our Service. All rights reserved.</p>
+        </div>
+</div>
+</body>
+</html> 
+ -->
